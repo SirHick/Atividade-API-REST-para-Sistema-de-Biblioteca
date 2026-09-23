@@ -20,9 +20,21 @@ server.get('/livros', (req, res) => {
     });
 });
 
+//GET /livros/ordenados
+server.get('/livros/ordenados', (req, res) => {
+    const sql = 'SELECT * FROM livro ORDER BY titulo';
+
+    connection.query(sql, (erro, resultados) => {
+        if (erro) {
+            return res.status(500).json({ erro: erro.message });
+        }
+        return res.json(resultados);
+    });
+});
+
 //GET /livros/:id
 server.get('/livros/:id', (req, res) => {
-    const sql = 'SELECT * FROM livro WHERE id = ?';
+    const sql = 'SELECT * FROM livro WHERE id_livro = ?';
     const { id } = req.params;
 
     connection.query(sql, [id], (erro, resultados) => {
@@ -42,18 +54,6 @@ server.get('/livros/busca/:titulo', (req, res) => {
     const { titulo } = req.params;
 
     connection.query(sql, [`%${titulo}%`], (erro, resultados) => {
-        if (erro) {
-            return res.status(500).json({ erro: erro.message });
-        }
-        return res.json(resultados);
-    });
-});
-
-//GET /livros/ordenados
-server.get('/livros/ordenados', (req, res) => {
-    const sql = 'SELECT * FROM livro ORDER BY titulo';
-
-    connection.query(sql, (erro, resultados) => {
         if (erro) {
             return res.status(500).json({ erro: erro.message });
         }
@@ -83,7 +83,7 @@ server.post('/livros', (req, res) => {
 
 //PUT /livros/:id
 server.put('/livros/:id', (req, res) => {
-    const sql = 'UPDATE livro SET titulo = ?, autor = ?, isbn = ?, ano_publicacao = ?, categoria = ?, qtd = ? WHERE id = ?';
+    const sql = 'UPDATE livro SET titulo = ?, autor = ?, isbn = ?, ano_publicacao = ?, categoria = ?, qtd = ? WHERE id_livro = ?';
     const { id } = req.params;
     const livro = req.body;
 
@@ -100,7 +100,7 @@ server.put('/livros/:id', (req, res) => {
 
 //DELETE /livros/:id
 server.delete('/livros/:id', (req, res) => {
-    const sql = 'DELETE FROM livro WHERE id = ?';
+    const sql = 'DELETE FROM livro WHERE id_livro = ?';
     const { id } = req.params;
 
     connection.query(sql, [id], (erro, resultados) => {
@@ -132,7 +132,7 @@ server.get('/usuarios', (req, res) => {
 
 //GET /usuarios/:id
 server.get('/usuarios/:id', (req, res) => {
-    const sql = 'SELECT * FROM usuario WHERE id = ?';
+    const sql = 'SELECT * FROM usuario WHERE id_usuario = ?';
     const { id } = req.params;
 
     connection.query(sql, [id], (erro, resultados) => {
@@ -167,7 +167,7 @@ server.post('/usuarios', (req, res) => {
 
 //PUT /usuarios/:id
 server.put('/usuarios/:id', (req, res) => {
-    const sql = 'UPDATE usuario SET nome = ?, cpf = ?, email = ?, telefone = ? WHERE id = ?';
+    const sql = 'UPDATE usuario SET nome = ?, cpf = ?, email = ?, telefone = ? WHERE id_usuario = ?';
     const { id } = req.params;
     const usuario = req.body;
 
@@ -184,7 +184,7 @@ server.put('/usuarios/:id', (req, res) => {
 
 //DELETE /usuarios/:id
 server.delete('/usuarios/:id', (req, res) => {
-    const sql = 'DELETE FROM usuario WHERE id = ?';
+    const sql = 'DELETE FROM usuario WHERE id_usuario = ?';
     const { id } = req.params;
 
     connection.query(sql, [id], (erro, resultados) => {
@@ -217,7 +217,7 @@ server.get('/emprestimos', (req, res) => {
 
 //GET /emprestimos/:id
 server.get('/emprestimos/:id', (req, res) => {
-    const sql = 'SELECT * FROM emprestimo WHERE id = ?';
+    const sql = 'SELECT * FROM emprestimo WHERE id_emprestimo = ?';
     const { id } = req.params;
 
     connection.query(sql, [id], (erro, resultados) => {
@@ -253,7 +253,7 @@ server.post('/emprestimos', (req, res) => {
 
 //PUT /emprestimos/:id
 server.put('/emprestimos/:id', (req, res) => {
-    const sql = 'UPDATE emprestimo SET usuario_id = ?, livro_id = ?, data_emprestimo = ?, data_prevista_devolucao = ?, data_devolucao = ?, status = ? WHERE id = ?';
+    const sql = 'UPDATE emprestimo SET usuario_id = ?, livro_id = ?, data_emprestimo = ?, data_prevista_devolucao = ?, data_devolucao = ?, status = ? WHERE id_emprestimo = ?';
     const { id } = req.params;
     const emprestimo = req.body;
 
