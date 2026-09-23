@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema biblioteca-api
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema biblioteca-api
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `biblioteca-api` DEFAULT CHARACTER SET utf8 ;
+USE `biblioteca-api` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`livro`
+-- Table `biblioteca-api`.`livro`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`livro` (
+CREATE TABLE IF NOT EXISTS `biblioteca-api`.`livro` (
   `id_livro` INT NOT NULL AUTO_INCREMENT,
   `titulo` VARCHAR(45) NULL,
   `autor` VARCHAR(100) NULL,
@@ -30,9 +30,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`usuario`
+-- Table `biblioteca-api`.`usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`usuario` (
+CREATE TABLE IF NOT EXISTS `biblioteca-api`.`usuario` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NULL,
   `cpf` VARCHAR(15) NULL,
@@ -44,9 +44,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`emprestimo`
+-- Table `biblioteca-api`.`emprestimo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`emprestimo` (
+CREATE TABLE IF NOT EXISTS `biblioteca-api`.`emprestimo` (
   `id_emprestimo` INT NOT NULL AUTO_INCREMENT,
   `id_livro_emprestimo` INT NULL,
   `id_usuario_emprestimo` INT NULL,
@@ -61,12 +61,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`emprestimo` (
   INDEX `fk_emprestimo_usuario1_idx` (`usuario_id` ASC) VISIBLE,
   CONSTRAINT `fk_emprestimo_livro`
     FOREIGN KEY (`livro_id`)
-    REFERENCES `mydb`.`livro` (`id_livro`)
+    REFERENCES `biblioteca-api`.`livro` (`id_livro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_emprestimo_usuario1`
     FOREIGN KEY (`usuario_id`)
-    REFERENCES `mydb`.`usuario` (`id_usuario`)
+    REFERENCES `biblioteca-api`.`usuario` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
