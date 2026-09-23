@@ -231,7 +231,7 @@ server.get('/emprestimos/:id', (req, res) => {
     });
 });
 
-//POST /emprestimos
+// POST /emprestimos
 server.post('/emprestimos', (req, res) => {
     const { id_livro_emprestimo, id_usuario_emprestimo, data_emprestimo, 
         data_prevista_devolucao_emprestimo, data_devolucao, status, livro_id, usuario_id } = req.body;
@@ -240,7 +240,8 @@ server.post('/emprestimos', (req, res) => {
         return res.status(400).json({ erro: 'Todos os campos obrigatórios devem ser preenchidos.' });
     }
 
-    const sql = 'INSERT INTO emprestimo (usuario_id, livro_id, data_emprestimo, data_prevista_devolucao, data_devolucao, status) VALUES (?, ?, ?, ?, ?, ?)';
+    // Alterado 'data_devolucao' para 'data_devolucao_emprestimo'
+    const sql = 'INSERT INTO emprestimo (usuario_id, livro_id, data_emprestimo, data_prevista_devolucao_emprestimo, data_devolucao_emprestimo, status) VALUES (?, ?, ?, ?, ?, ?)';
     const emprestimo = req.body;
 
     connection.query(sql, [usuario_id, livro_id, data_emprestimo, data_prevista_devolucao_emprestimo, data_devolucao, status], (erro, resultados) => {
@@ -253,12 +254,12 @@ server.post('/emprestimos', (req, res) => {
 
 //PUT /emprestimos/:id
 server.put('/emprestimos/:id', (req, res) => {
-    const sql = 'UPDATE emprestimo SET usuario_id = ?, livro_id = ?, data_emprestimo = ?, data_prevista_devolucao = ?, data_devolucao = ?, status = ? WHERE id_emprestimo = ?';
+    const sql = 'UPDATE emprestimo SET usuario_id = ?, livro_id = ?, data_emprestimo = ?, data_prevista_devolucao_emprestimo = ?, data_devolucao_emprestimo = ?, status = ? WHERE id_emprestimo = ?';
     const { id } = req.params;
     const emprestimo = req.body;
 
     connection.query(sql, [emprestimo.usuario_id, emprestimo.livro_id, emprestimo.data_emprestimo, emprestimo.data_prevista_devolucao_emprestimo, 
-        emprestimo.data_devolucao, emprestimo.status, id], (erro, resultados) => {
+        emprestimo.data_devolucao_emprestimo, emprestimo.status, id], (erro, resultados) => {
         if (erro) {
             return res.status(500).json({ erro: erro.message });
         }
@@ -268,9 +269,6 @@ server.put('/emprestimos/:id', (req, res) => {
         return res.json({ ...emprestimo, id });
     });
 });
-
-
-
 
 const port = 3026;
 
